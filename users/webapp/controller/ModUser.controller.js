@@ -1,6 +1,11 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-], function (Controller) {
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/core/routing/History",
+    "sap/m/MessageBox",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
+
+], function (Controller, History ,MessageBox ,  Filter , FilterOperator) {
 
 
     function _onObjectMatched(oEvent) {
@@ -50,8 +55,44 @@ sap.ui.define([
         oRouter.getRoute("ModUser").attachPatternMatched(_onObjectMatched, this);
 	},
 	
- 
+    onBack: function (oEvent) {
+
+        var oHistory = History.getInstance();
+        var sPreviousHash = oHistory.getPreviousHash();
+
+        if (sPreviousHash !== undefined) {
+            window.history.go(-1);
+        } else {
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            oRouter.navTo("menu", true);
+        }
+    },
 	
+    onSaveUser: function (oEvent) {
+       
+        const oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
+        let objectOrder = oEvent.getSource().getBindingContext("DatosUser").getObject();
+
+          let body = {
+            Address:{
+                Firstname: objectOrder.Address.Firstname.toString(),
+                Fullname: objectOrder.Address.Fullname.toString(),
+                EMail: objectOrder.Address.EMail,
+                Tel1Numbr: objectOrder.Address.Tel1Numbr,
+              }
+            };
+
+            this.getView().getModel("DatosUser").update("/UserBapiSet('CONSULFF')", body, {
+                success: function () {
+                    MessageBox.information(oResourceBundle.getText("UserSaved"));
+                },
+                error: function (e) {
+                    MessageBox.error(oResourceBundle.getText(e));
+                },
+
+            });
+       
+    },
 
  
     });

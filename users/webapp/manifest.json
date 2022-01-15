@@ -61,9 +61,11 @@
         "preload": true,
         "settings": {
             "defaultOperationMode": "Server",
-            "defaultBindingMode": "OneWay",
+            "defaultBindingMode": "TwoWay",
             "defaultCountMode": "Request",
-            "refreshAfterChange": false
+            "refreshAfterChange": false,
+            "useBatch": false,
+            "defaultUpdateMethod": "Put"
         }
       }
     },

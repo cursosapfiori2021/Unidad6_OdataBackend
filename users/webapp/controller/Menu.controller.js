@@ -1,6 +1,11 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-], function (Controller) {
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/core/routing/History",
+    "sap/m/MessageBox",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
+
+], function (Controller, History ,MessageBox ,  Filter , FilterOperator) {
 
     return Controller.extend("ns.users.controller.Menu", {
 	
@@ -14,8 +19,8 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			var _SAPUsername = this.getOwnerComponent().SapUserName;
 			oRouter.navTo("ModUser",{Username: _SAPUsername },false);
-	}
+	},
 	
- 
+
     });
 });  

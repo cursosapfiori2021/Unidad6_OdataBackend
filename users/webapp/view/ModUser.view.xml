@@ -13,52 +13,78 @@
                     <Button id="_IDGenButton1" icon="sap-icon://nav-back" press="onBack"></Button>
                 </contentLeft>
                 <contentMiddle>
-                    <Text id="_IDGenText1" text="{i18n>Username}  {DatosUser>Username}"></Text>
+                    <Text id="_IDGenText1" text="{i18n>CambiarDatosUsuario}: {DatosUser>Username}" class="boldText"></Text>
                 </contentMiddle>
             </Bar>
         </customHeader>
+
         <content>
-            <Panel id="_IDGenPanel1" headerText="{i18n>Username}: {DatosUser>Username}">
+            <Panel id="_IDGenPanel1" >
                 <l:Grid id="_IDGenGrid1" defaultSpan="L6 M6 S12">
                     <f:Form id="_IDGenForm1" >
                         <f:layout>
-                            <f:ResponsiveGridLayout id="_IDGenResponsiveGridLayout1" labelSpanL="6" labelSpanM="6" labelSpanS="12"/>
+                            <f:ResponsiveGridLayout id="_IDGenResponsiveGridLayout1" 
+                            labelSpanL="6" labelSpanM="6" labelSpanS="12"/>
                         </f:layout>
                         <f:formContainers>
                             <f:FormContainer id="_IDGenFormContainer1">
                                 <f:formElements>
-                                    <f:FormElement id="_IDGenFormElement1" label="{i18n>Username}">
+                                    <f:FormElement  id="_IDGenFormElement1" label="{i18n>Firstname}" >
                                         <f:fields>
-                                            <Text id="_IDGenText2" text="{DatosUser>Address/Username}"></Text>
+                                        <Input 
+                                            id="_IDGenInput3" 
+                                            required="true"
+                                            value="{DatosUser>Address/Firstname}" 
+                                            valueState="{/_FirstnameState}"
+                                            change="validateFirstname">
+                                         </Input>
+                                            
                                         </f:fields>
                                     </f:FormElement>
-                                    <f:FormElement id="_IDGenFormElement2" label="{i18n>Fullname}">
+                                    <f:FormElement 
+                                    id="_IDGenFormElement2" 
+                                    label="{i18n>Fullname}">
                                         <f:fields>
-                                            <Text id="_IDGenText3" text="{oJSONModelUser>Fullname}"></Text>
+                                        <Input 
+                                            id="_IDGenInput4" 
+                                            required="true"
+                                            value="{DatosUser>Address/Fullname}" 
+                                            valueState="{/_FullnameState}"
+                                            change="validateFullname">
+                                         </Input>
+
+                                        
                                         </f:fields>
                                     </f:FormElement>
                                     <f:FormElement id="_IDGenFormElement3" label="{i18n>EMail}">
                                         <f:fields>
-                                            <Text id="_IDGenText4" text="{DatosUser>Address/Fullname}"></Text>
+                                           <Input 
+                                            id="_IDGenInput5" 
+                                            required="true"
+                                            value="{DatosUser>Address/EMail}" 
+                                            valueState="{/_EMailState}"
+                                            change="validateEMail">
+                                         </Input>
                                         </f:fields>
                                     </f:FormElement>
                                     <f:FormElement id="_IDGenFormElement4" label="{i18n>Tel1Numbr}">
                                         <f:fields>
-                                            <Text id="_IDGenText5" text="{DatosUser>Address/Tel1Numbr}"  ></Text>
+                                             <Input 
+                                            id="_IDGenInput6" 
+                                            required="true"
+                                            value="{DatosUser>Address/Tel1Numbr}" 
+                                            valueState="{/_Tel1NumbrState}"
+                                            change="validateTel1Numbr">
+                                         </Input>
                                         </f:fields>
                                     </f:FormElement>
                                 </f:formElements>
                             </f:FormContainer>
                         </f:formContainers>
                     </f:Form>
-
-                    
-                </l:Grid>
-                  
+           
+                </l:Grid>  
             </Panel>
- 
-
-            
         </content>
 
         <footer>
