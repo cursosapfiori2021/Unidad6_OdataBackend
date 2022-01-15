@@ -1,0 +1,17 @@
+<mvc:View controllerName="ns.users.controller.Menu" 
+xmlns:mvc="sap.ui.core.mvc"
+ displayBlock="true" xmlns="sap.m">
+				<Page id="page" title="{i18n>menuPrincipal}">
+					<content>
+						<Panel id="_IDGenPanel1" headerText="{i18n>Usuario}" expandable="true" expanded="true">
+							<GenericTile id="_IDGenGenericTile1" headerImage="sap-icon://add-employee"
+                             class="sapUiTinyMarginBegin sapUiTinyMarginTop" press="navToModUser">
+								<TileContent id="_IDGenTileContent1" footer="{i18n>ModUsuario}">
+								</TileContent>
+							</GenericTile>
+						 
+						</Panel>
+					 
+					</content>
+				</Page>
+</mvc:View>
