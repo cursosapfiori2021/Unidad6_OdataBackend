@@ -87,7 +87,7 @@ sap.ui.define([
                     MessageBox.information(oResourceBundle.getText("UserSaved"));
                 },
                 error: function (e) {
-                    MessageBox.error(oResourceBundle.getText(e));
+                    MessageBox.error(oResourceBundle.getText("UserNotSaved"));
                 },
 
             });
