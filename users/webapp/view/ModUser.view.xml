@@ -6,7 +6,7 @@
           xmlns:l="sap.ui.layout"
           xmlns:f="sap.ui.layout.form"
           >
-    <Page id="_IDGenPage1">
+    <Page id="UserPage">
         <customHeader>
             <Bar id="_IDGenBar1">
                 <contentLeft>
@@ -17,82 +17,108 @@
                 </contentMiddle>
             </Bar>
         </customHeader>
-
         <content>
             <Panel id="_IDGenPanel1" >
-                <l:Grid id="_IDGenGrid1" defaultSpan="L6 M6 S12">
-                    <f:Form id="_IDGenForm1" >
+                <l:Grid   id="_IDGenGrid1" defaultSpan="L6 M6 S12">
+             
+                    <f:Form   id="formContainer"  >
                         <f:layout>
                             <f:ResponsiveGridLayout id="_IDGenResponsiveGridLayout1" 
                             labelSpanL="6" labelSpanM="6" labelSpanS="12"/>
                         </f:layout>
                         <f:formContainers>
-                            <f:FormContainer id="_IDGenFormContainer1">
-                                <f:formElements>
+                            <f:FormContainer  id="_IDGenFormContainer1" title="Datos basicos" >
+                                <f:formElements  >
                                     <f:FormElement  id="_IDGenFormElement1" label="{i18n>Firstname}" >
-                                        <f:fields>
-                                        <Input 
-                                            id="_IDGenInput3" 
-                                            required="true"
-                                            value="{DatosUser>Address/Firstname}" 
-                                            valueState="{/_FirstnameState}"
-                                            change="validateFirstname">
-                                         </Input>
-                                            
+                                        <f:fields >
+                                            <Input 
+                                                id="_IDGenInput3" 
+                                                required="true"
+                                                placeholder="Nombre"                                
+                                                value="{DatosUser>Address/Firstname}"
+                                                valueState="{FirstnameState}"
+                                                >
+                                            </Input>                     
                                         </f:fields>
                                     </f:FormElement>
-                                    <f:FormElement 
-                                    id="_IDGenFormElement2" 
-                                    label="{i18n>Fullname}">
+                                    <f:FormElement id="_IDGenFormElement2"  label="{i18n>Fullname}">
                                         <f:fields>
-                                        <Input 
-                                            id="_IDGenInput4" 
-                                            required="true"
-                                            value="{DatosUser>Address/Fullname}" 
-                                            valueState="{/_FullnameState}"
-                                            change="validateFullname">
-                                         </Input>
+                                            <Input 
+                                                id="_IDFullname" 
+                                                required="true"
+                                                valueState="{FullnameState}"
+                                                value="{DatosUser>Address/Fullname}" 
+                                            >  
+                                            </Input>
+                                        </f:fields>
+                                    </f:FormElement>
+                                 </f:formElements>
+                                </f:FormContainer>
 
-                                        
-                                        </f:fields>
-                                    </f:FormElement>
+                                <f:FormContainer id="_IDGenFormContainer2" title="Datos de contacto">
+                                 <f:formElements>
                                     <f:FormElement id="_IDGenFormElement3" label="{i18n>EMail}">
                                         <f:fields>
                                            <Input 
-                                            id="_IDGenInput5" 
+                                            id="emailInput"
                                             required="true"
-                                            value="{DatosUser>Address/EMail}" 
-                                            valueState="{/_EMailState}"
-                                            change="validateEMail">
-                                         </Input>
+                                            placeholder="john@smith.org"
+                                            valueState="{EmailState}"
+                                          	valueStateText="El email tiene un formato incorrecto"
+                                            type="Email"     
+                                            value="{
+                                                    path : 'DatosUser>Address/EMail',
+                                                    type : 'sap.ui.model.type.String',
+                                                    constraints: {
+                                                        search: '^\\w+[\\w-+\\.]*\\@[a-zA-Z]+.[a-zA-Z]+'
+                                                        }
+                                                    }" 
+
+ 
+                                            change="onChange"
+                                            />
                                         </f:fields>
                                     </f:FormElement>
                                     <f:FormElement id="_IDGenFormElement4" label="{i18n>Tel1Numbr}">
                                         <f:fields>
-                                             <Input 
-                                            id="_IDGenInput6" 
-                                            required="true"
-                                            value="{DatosUser>Address/Tel1Numbr}" 
-                                            valueState="{/_Tel1NumbrState}"
-                                            change="validateTel1Numbr">
+                                            <Input 
+                                                id="_IDTelefono" 
+                                                required="true"
+                                                type="Tel"  
+                                                value="{DatosUser>Address/Tel1Numbr}"
+                                                valueStateText="El telefono tiene un formato incorrecto"
+                                                valueState="{TelNumbrState}"
+                                                placeholder="541753-6010"
+                                                change="validateTelNumbr">
                                          </Input>
                                         </f:fields>
                                     </f:FormElement>
                                 </f:formElements>
+
+                                
                             </f:FormContainer>
                         </f:formContainers>
                     </f:Form>
-           
+          
                 </l:Grid>  
             </Panel>
         </content>
 
-        <footer>
-            <Toolbar id="_IDGenToolbar1">
-                <ToolbarSpacer id="_IDGenToolbarSpacer1"></ToolbarSpacer>
-                <Button id="_IDGenButton3" text="{i18n>saveUser}" press="onSaveUser"></Button>
-            </Toolbar>
-        </footer>
+         
+            <footer>
+			<OverflowToolbar id="_IDGenOverflowToolbar1">
+				<Button id="messagePopover"
+				
+					icon="{ path: '/', formatter: '.buttonIconFormatter' }"
+					type="{ path: '/', formatter: '.buttonTypeFormatter' }"
+					text= "{path: '/', formatter: '.highestSeverityMessages' }"
+					press=".handleMessagePopoverPress"
+					 />
+				<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+				<Button id="_IDGenButton2" type="Emphasized" text="Save" press="onSaveUser" />
+				<Button id="_IDGenButton3" text="Cancel" />
+			</OverflowToolbar>
+		</footer>
         
     </Page>
 </mvc:View>

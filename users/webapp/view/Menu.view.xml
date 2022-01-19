@@ -9,7 +9,6 @@ xmlns:mvc="sap.ui.core.mvc"
                             headerImage="sap-icon://edit"
                             class="sapUiTinyMarginBegin sapUiTinyMarginTop"  
                             header="{i18n>PermiteEditar}"
-		                   
                             press="navToModUser">
 
 								<TileContent id="_IDGenTileContent1" footer="{i18n>ModUsuario}">
