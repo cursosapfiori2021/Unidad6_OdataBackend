@@ -47,10 +47,27 @@
                                                 id="_IDFullname" 
                                                 required="true"
                                                 valueState="{FullnameState}"
-                                                value="{DatosUser>Address/Fullname}" 
+                                                value="{
+                                                    path: 'DatosUser>Address/Fullname',
+                                                    
+                                                    formatter: 'upperCase'
+                                                    
+                                                    }" 
+                                                 
                                             >  
                                             </Input>
+                                        
                                         </f:fields>
+                                         </f:FormElement>
+                                        <f:FormElement id="_IDGenFormElement33"  label="{i18n>Fullname}">
+                                                <f:fields>
+                                                    <Text id="_IDGenText2" text="{
+                                                            path: 'DatosUser>Address/Fullname',
+                                                            
+                                                            formatter: 'upperCase'
+                                                            
+                                                            }"  />
+                                                    </f:fields>
                                     </f:FormElement>
                                  </f:formElements>
                                 </f:FormContainer>
@@ -107,7 +124,7 @@
          
             <footer>
 			<OverflowToolbar id="_IDGenOverflowToolbar1">
-				<Button id="messagePopover"
+				<Button id="messagePopover" 
 				
 					icon="{ path: '/', formatter: '.buttonIconFormatter' }"
 					type="{ path: '/', formatter: '.buttonTypeFormatter' }"

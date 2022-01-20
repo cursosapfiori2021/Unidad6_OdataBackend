@@ -2,12 +2,7 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/routing/History",
     "sap/m/MessageBox",
-    "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator",
-    "sap/ui/model/SimpleType",
-    "sap/ui/model/ValidateException",
     "sap/ui/core/Core",
-    "sap/ui/model/json/JSONModel",
     'sap/m/MessagePopover',
     'sap/ui/core/Element',
     'sap/m/MessageItem',
@@ -16,8 +11,7 @@ sap.ui.define([
 
 
 
-], function (Controller, History, MessageBox, Filter, FilterOperator, SimpleType, ValidateException, Core, JSONModel,
-    MessagePopover, Element, MessageItem, coreLibrary, Message) {
+], function (Controller, History, MessageBox, Core, MessagePopover, Element, MessageItem, coreLibrary, Message) {
 
 
     function _onObjectMatched(oEvent) {
@@ -63,7 +57,7 @@ sap.ui.define([
 
             this._MessageManager = Core.getMessageManager(); 
             this._MessageManager.removeAllMessages();
-            this._MessageManager.registerObject(this.oView.byId("formContainer"), true);
+            this._MessageManager.registerObject(this.getView(), true );
             this.oView.setModel(this._MessageManager.getMessageModel(), "message");
             this.createMessagePopover();
         },
@@ -71,7 +65,7 @@ sap.ui.define([
         handleRequiredField: function (oInput) {
 
             // El contexto donde esta el objeto con el +  se concadena
-           var sTarget = oInput.mBindingInfos.value.parts[0].path; //oInput.getBindingContext().getPath() + "/" + oInput.getBindingPath("value");
+             var sTarget = oInput.mBindingInfos.value.parts[0].path; 
              this.removeMessageFromTarget(sTarget);
 
             if (!oInput.getValue()) {
@@ -95,7 +89,7 @@ sap.ui.define([
 
             switch (group) {
                 case "GR1":
-                    message = "Invalid email";
+                   /* message = "Invalid email";
                     type = MessageType.Error;
                     description = "El campo mail contiene error";
                     sValueState = "Error";
@@ -116,13 +110,20 @@ sap.ui.define([
                         );
                         oInput.setValueState(sValueState);
                     }
-                    break;
+                    break;*/
                 case "GR2":
+
+
+
+
+
                     message = "El Telefono tiene un formato invalido";
                     type = MessageType.Warning;
                     description = "Por favor ingrese un formato valido";
                     sValueState = "Warning";
+
                     var rexTel = /^\(?(\d{3})\)?[-]?(\d{3})[-]?(\d{4})$/;
+
                     if (!_value.match(rexTel )) {
                    
                         this._MessageManager.addMessages(
@@ -137,6 +138,11 @@ sap.ui.define([
                         );
                         oInput.setValueState(sValueState);
                     }
+
+
+
+
+
                     
                     break;
                 default:
@@ -144,7 +150,7 @@ sap.ui.define([
             }
         
         },
-
+/*
         onChange: function (oEvent) {
             var oInput = oEvent.getSource();
             if (oInput.getRequired()) {
@@ -155,7 +161,7 @@ sap.ui.define([
             }else if (oInput.getLabels()[0].getText() === "Telefono") {
                 this.checkInputConstraints('GR2', oInput);
             }
-        },
+        },*/
 
 
         removeMessageFromTarget: function (sTarget) {
@@ -167,6 +173,18 @@ sap.ui.define([
                 // Es importante este bind ya que con esto le indicamos donde se ejecuta
             }.bind(this));
         },
+
+        onChange: function () {
+            // clear potential server-side messages to allow saving the item again
+            this._MessageManager.getMessageModel().getData().forEach(function (oMessage) {
+           
+            if (oMessage.code) {
+                this._MessageManager.removeMessages(oMessage);
+            }
+            }.bind(this));
+            },
+            
+
         createMessagePopover: function () {
             let that = this;
             this.oMP = new MessagePopover({
@@ -242,6 +260,9 @@ sap.ui.define([
             }
         },
 
+
+
+
         validateTelNumbr: function (oEvent) {
             var _value = oEvent.getParameters("value").newValue;
             oEvent.getSource().setProperty("valueState", "None");
@@ -250,6 +271,9 @@ sap.ui.define([
                 oEvent.getSource().setProperty("valueState", "Error");
             }
         },
+
+
+
 
 
         onBack: function (oEvent) {
@@ -265,13 +289,9 @@ sap.ui.define([
 
         onSaveUser: function (oEvent) {
          
-            this._MessageManager.getMessageModel().getData().forEach(function (oMessage) {
+            //Destroys all the items in the aggregation items.
+           // this._MessageManager.removeAllMessages()
                 
-                    this._MessageManager.removeMessages(oMessage);
-                
-                // Es importante este bind ya que con esto le indicamos donde se ejecuta
-            }.bind(this));
-
             const oView = this.getView();
             let oButton = oView.byId("messagePopover");
             let oNameInput =  oView.byId("_IDFullname");
@@ -279,13 +299,13 @@ sap.ui.define([
             let oIDTelefono = oView.byId("_IDTelefono");
             oButton.setVisible(true);
             this.handleRequiredField(oNameInput);
-            this.checkInputConstraints('GR1', oEmailInput);
+           // this.checkInputConstraints('GR1', oEmailInput);
             this.checkInputConstraints('GR2', oIDTelefono);
             
  
            if(  this._MessageManager.getMessageModel().getData().length === 0 )  {
+
                     const oResourceBundle = this.getView().getModel("i18n").getResourceBundle();
-                
                     let objectOrder =  oEvent.getSource().getParent().getBindingContext("DatosUser").getObject();
                     let body = {
                         Address: {
@@ -295,7 +315,6 @@ sap.ui.define([
                             Tel1Numbr: objectOrder.Address.Tel1Numbr,
                         }
                     };
-
                     this.getView().getModel("DatosUser").update("/UserBapiSet('CONSULFF')", body, {
                         success: function () {
                             MessageBox.information(oResourceBundle.getText("UserSaved"));
@@ -303,10 +322,10 @@ sap.ui.define([
                         error: function (e) {
                             MessageBox.error(oResourceBundle.getText("UserNotSaved"));
                         },
-
                     });
-
            }
+
+           
 
             this._MessageManager.getMessageModel().getData().forEach(function (oMessage) {
                 if (oMessage) {
@@ -409,5 +428,11 @@ sap.ui.define([
             }
             this.oMP.toggle(oEvent.getSource());
         },
+
+        upperCase: function  (sVal){
+             
+             return sVal.toUpperCase();
+
+          }
     });
 });  
